@@ -124,7 +124,11 @@ def main():
 
         st.subheader("Antecedentes")
         sexo       = st.selectbox("Sexo",             [0, 1], format_func=lambda x: "Femenino" if x == 0 else "Masculino")
-        tabaquismo = st.selectbox("Hábito tabáquico", [0, 1], format_func=lambda x: "No" if x == 0 else "Sí")
+        tabaquismo = st.selectbox(
+            "Hábito tabáquico",
+            [0, 1, 2, 3],
+            format_func=lambda x: {0: "No fumador", 1: "Ex fumador", 2: "Fumador ocasional", 3: "Fumador habitual"}.get(x, str(x))
+        )
         diabetes   = st.selectbox("Diabetes",         [0, 1], format_func=lambda x: "No" if x == 0 else "Sí")
 
         predecir_btn = st.button("🔍 Predecir riesgo", use_container_width=True, type="primary")
@@ -148,7 +152,7 @@ def main():
             "P. Diastólica":     f"{pad:.1f} mmHg",
             "Creatinina":        f"{creat:.2f} mg/dL",
             "Sexo":              "Masculino" if sexo == 1 else "Femenino",
-            "Tabaquismo":        "Sí" if tabaquismo == 1 else "No",
+            "Tabaquismo": {0: "No fumador", 1: "Ex fumador", 2: "Fumador ocasional", 3: "Fumador habitual"}.get(tabaquismo, str(tabaquismo)),
             "Diabetes":          "Sí" if diabetes == 1 else "No",
         }
         st.table(pd.DataFrame(resumen.items(), columns=["Variable", "Valor"]))
